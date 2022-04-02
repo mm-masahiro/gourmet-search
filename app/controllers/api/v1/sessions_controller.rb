@@ -13,5 +13,7 @@ class Api::V1::SessionsController < ApplicationController
   end
   
   def destroy
+    log_out
+    render status: 200
   end
 end
