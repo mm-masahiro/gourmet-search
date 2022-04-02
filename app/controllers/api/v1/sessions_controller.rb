@@ -3,9 +3,10 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:session][:email])
-    if user&.authenticate(params[:session][:password])
-      log_in user
+    user = User.find_by(email: params[:email])
+    
+    if user&.authenticate(params[:password])
+      session[:user_id] = user.id
       render status: 200
     else
       rendere status: 400, json: { error: "occured error" }

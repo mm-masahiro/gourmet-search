@@ -1,3 +1,4 @@
 class ApplicationController < ActionController::API
-  include SessionHelper
+  include ActionController::Cookies
+  include SessionsHelper
 end
