@@ -19,6 +19,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      log_in @user
       render status: 201, json: @user
     else
       render status: 400, json: { error: "Bad Request" }
