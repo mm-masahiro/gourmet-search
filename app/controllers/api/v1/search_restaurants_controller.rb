@@ -9,19 +9,35 @@ class Api::V1::SearchRestaurantsController < ApplicationController
 		query_paarms = "&small_area=XA3T&format=json"
 		request_url = GOURMET_BASE_URL + ENV['HOTPEPPER_API_KEY'] + query_paarms
 
-		response = CLIENT.get(request_url)
-		parsed_response = JSON.parse(response.body)
+		response = get_request(request_url)
 
-		render status: 200, json: parsed_response
+		render status: 200, json: response
   end
+
+	def get_restaurant_with_code
+
+	end
 
 	def get_code
 		query_paarms = "&format=json&code=#{params[:code]}"
 		request_url = CODE_BASE_URL + ENV['HOTPEPPER_API_KEY'] + query_paarms
 
+		response = get_request(request_url)
+		result = response["results"]["genre"] 
+
+		@code = result.map do |res|
+			res["code"]
+		end
+
+		render status: 200, json: result
+	end
+
+	private
+
+	def get_request(request_url)
 		response = CLIENT.get(request_url)
 		parsed_response = JSON.parse(response.body)
 
-		render status: 200, json: parsed_response["results"]["genre"]
+		return parsed_response
 	end
 end
