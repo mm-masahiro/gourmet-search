@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resources :users
 			resource :search_restaurants do
 				get  :get_restaurant
-				post :get_restaurant_with_code
+				post :get_restaurant_with_genre_code
 			end
     end
   end
