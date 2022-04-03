@@ -41,7 +41,6 @@ class Api::V1::SearchRestaurantsController < ApplicationController
 		@code
 	end
 
-
 	def get_request(request_url)
 		response = CLIENT.get(request_url)
 		parsed_response = JSON.parse(response.body)
