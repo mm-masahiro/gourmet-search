@@ -15,11 +15,31 @@ class Api::V1::SearchRestaurantsController < ApplicationController
   end
 
 	def get_restaurant_with_genre_code
-		query_paarms = "&middle_area=Y030&format=json"
-		genre_code = get_code(params[:genre_code])[0]
+		# query_paarms = "&middle_area=Y030&format=json"
+		query_paarms = "&format=json&count=100"
+		genre_code = get_genre_code(params[:genre_code])[0]
 		query_code = "&genre=#{genre_code}"
 
 		request_url = GOURMET_BASE_URL + ENV['HOTPEPPER_API_KEY'] + query_paarms + query_code
+		
+		if params[:large_area]
+			query_large_area = "&large_area=#{params[:large_area]}"
+
+			request_url = request_url + query_large_area
+		end
+		
+		if params[:middle_area]
+			query_middle_area = "&middle_area=#{params[:middle_area]}"
+
+			request_url = request_url + query_middle_area
+		end
+		
+		if params[:small_area]
+			query_small_area = "&small_area=#{params[:small_area]}"
+
+			request_url = request_url + query_small_area
+		end
+
 		response = get_request(request_url)
 		
 		render status: 200, json: response
@@ -27,7 +47,7 @@ class Api::V1::SearchRestaurantsController < ApplicationController
 
 	private
 
-	def get_code(genre_code)
+	def get_genre_code(genre_code)
 		query_paarms = "&format=json&code=#{genre_code}"
 		request_url = CODE_BASE_URL + ENV['HOTPEPPER_API_KEY'] + query_paarms
 
